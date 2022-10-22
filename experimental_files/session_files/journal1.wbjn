@@ -1,0 +1,27 @@
+﻿# encoding: utf-8
+# Release 16.0
+SetScriptVersion(Version="16.0.361")
+template1 = GetTemplate(TemplateName="Geometry")
+system1 = template1.CreateSystem()
+system1.DisplayText = "Disk"
+template2 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system2 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+modelComponent1 = system2.GetComponent(Name="Model")
+geometryComponent1.TransferData(TargetComponent=modelComponent1)
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+geometry1.Exit()
+modelComponent1.Refresh()
+model1 = system2.GetContainer(ComponentName="Model")
+model1.Edit()
+geometry1.Edit()
+engineeringData1 = system2.GetContainer(ComponentName="Engineering Data")
+material1 = engineeringData1.GetMaterial(Name="Structural Steel")
+material1.SetSuppression(Suppressed=True)
+material1.SetSuppression(Suppressed=False)
+Save(Overwrite=True)

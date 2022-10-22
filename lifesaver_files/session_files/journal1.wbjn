@@ -1,0 +1,22 @@
+﻿# encoding: utf-8
+# Release 16.0
+SetScriptVersion(Version="16.0.361")
+template1 = GetTemplate(TemplateName="Geometry")
+system1 = template1.CreateSystem()
+system1.DisplayText = "Disk"
+system1.DisplayText = "Geometry"
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+template2 = GetTemplate(TemplateName="Mesh")
+system2 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+meshComponent1 = system2.GetComponent(Name="Mesh")
+geometryComponent1.TransferData(TargetComponent=meshComponent1)
+meshComponent1.Refresh()
+mesh1 = system2.GetContainer(ComponentName="Mesh")
+mesh1.Edit()
+mesh1.Exit()
+geometry1.Exit()
+Save(Overwrite=True)
